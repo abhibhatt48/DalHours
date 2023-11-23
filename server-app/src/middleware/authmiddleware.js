@@ -18,6 +18,7 @@ const authenticateUser = async (req, res, next) => {
           message: "Failed to authenticate token",
         });
       }
+
       req.user = await user.findById(decoded.id);
       next();
     });

@@ -1,9 +1,9 @@
 const express = require("express");
 const mongodb = require("./config/dbConn");
-const routes = require("./api/routes/index"); 
+const routes = require("./api/routes/index");
 const cors = require("cors");
 const app = express();
-const port = 3000;
+const port = 4000;
 
 app.use(cors());
 
