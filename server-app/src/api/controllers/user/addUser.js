@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const uuid = require("uuid");
+
 const User = require("../../../models/user");
 const response = require("../../../utils/response");
 
@@ -13,8 +13,6 @@ const register = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    const userId = uuid.v4();
 
     const newUser = new User({
       name,

@@ -26,6 +26,7 @@ const login = async (req, res) => {
       userId: user._id,
     });
   } catch (error) {
+    console.log(error);
     return response(res, 500, false, { message: "Login failed" });
   }
 };

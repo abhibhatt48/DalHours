@@ -1,9 +1,11 @@
 const router = require("express").Router();
 
-const manager = require("./user/manager");
+const auth = require("./auth/index");
+const course = require("./course/index");
+const user = require("./user/index");
 
-// TODO: Add required routes
-
-router.use("/user", manager);
+router.use("/auth", auth);
+// router.use("/course", course);
+router.use("/user", user);
 
 module.exports = router;
