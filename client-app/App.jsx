@@ -47,9 +47,9 @@ const ComponentProvider = () => {
     dispatch(getUserInfoAction());
   }, [dispatch]);
 
-  if (loading) {
-    return <Loading />;
-  }
+  // if (loading) {
+  //   return <Loading />;
+  // }
 
   return (
     <NavigationContainer>

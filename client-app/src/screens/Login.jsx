@@ -11,7 +11,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import Wrapper from '../components/Wrapper';
-import {Input} from '../components/common/Input';
+import Input from '../components/common/Input';
 import {validateEmail} from '../helper/functions';
 import Axios from '../config/Axios';
 import {getUserInfoAction} from '../store/user/actions';
@@ -145,7 +145,6 @@ const Login = ({navigation}) => {
           </Stack>
           <Button
             size="sm"
-            // background=""
             onPress={() => handleResetPassword()}
             _pressed={{backgroundColor: 'secondary.500'}}>
             Reset Password
