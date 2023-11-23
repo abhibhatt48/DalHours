@@ -43,13 +43,13 @@ const authenticateAdmin = (req, res, next) => {
           message: "Failed to authenticate token",
         });
       }
-      const user = await user.findById(decoded.id);
-      if (user.role !== "admin") {
+      const dbresponseUser = await user.findById(decoded.id);
+      if (dbresponseUser.role !== "ADMIN") {
         return response(res, 403, false, {
           message: "Invalid Authorization",
         });
       }
-      req.user = user;
+      req.user = dbresponseUser;
       next();
     });
   } catch (error) {

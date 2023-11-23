@@ -69,7 +69,7 @@ const Login = ({navigation}) => {
     if (isValidated()) {
       setLoader(true);
       setAlert('');
-      Axios.post('/user/login', {
+      Axios.post('/auth/login', {
         email: formData.emailId,
         password: formData.password,
       })
