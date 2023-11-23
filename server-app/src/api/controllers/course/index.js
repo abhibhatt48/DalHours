@@ -1,5 +1,5 @@
-const register = require("./registerCourse");
+const registerCourse = require("./registerCourse");
 
 module.exports = {
-  register,
+  registerCourse,
 };

@@ -19,7 +19,7 @@ const memberSchema = new mongoose.Schema({
 
 const courseSchema = new mongoose.Schema({
   courseId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     require: true,
   },
   name: {
