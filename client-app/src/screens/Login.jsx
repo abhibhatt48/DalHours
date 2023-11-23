@@ -73,16 +73,18 @@ const Login = ({navigation}) => {
         email: formData.emailId,
         password: formData.password,
       })
-        .then(async res => {
-          if (res?.data?.message) {
-            setAlert(res.data.message);
+        .then(async ({data}) => {
+          if (data?.data?.message) {
+            setAlert(data?.data?.message);
           }
-          if (res?.data?.token) {
-            await AsyncStorage.setItem('token', res.data.token);
+
+          if (data?.data?.token) {
+            await AsyncStorage.setItem('token', data.data.token);
             dispatch(getUserInfoAction());
           }
         })
-        .catch(() => {
+        .catch(error => {
+          console.log(error);
           setAlert('Unable to Login the user.');
         })
         .finally(() => {

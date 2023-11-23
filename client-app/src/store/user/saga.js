@@ -8,11 +8,11 @@ function* getUserInfoSaga() {
   try {
     yield put({type: actionTypes.SET_USER_INFO_LOADING});
     const {data} = yield AxiosInstance.get('/user');
-    if (data.role) {
+    if (data?.data?.role) {
       yield put({
         type: actionTypes.GET_USER_INFO_SUCCESS,
-        payload: data,
-        role: data.role,
+        payload: data.data,
+        role: data.data.role,
       });
     } else {
       yield put({
