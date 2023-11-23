@@ -1,6 +1,7 @@
 const express = require("express");
 const mongodb = require("./config/dbConn");
 const logger = require("morgan");
+const routes = require("./api/routes/index"); 
 const cors = require("cors");
 const app = express();
 const port = 3000;
@@ -13,6 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send("Hello From DalHours!");
 });
+
+app.use("/", routes);
 
 app.listen(port, async () => {
   await mongodb.connect();

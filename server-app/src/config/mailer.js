@@ -4,14 +4,14 @@ var smtpTransport = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   auth: {
-    user: "email@gmail.com",
-    pass: "PASSWORD",
+    user: "dalhours@gmail.com",
+    pass: "zgcm ogkn tkvq seuy",
   },
 });
 
 const sendEmail = async (email, subject, body) => {
   const mailOptions = {
-    from: "email@gmail.com",
+    from: "dalhours@gmail.com",
     to: email,
     subject: subject,
     html: body,

@@ -28,6 +28,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  otp: {
+    type: String,
+    default: "",
+  },
+  resetPasswordToken: {
+    type: String,
+    default: "",
+  },
 });
 
 const User = mongoose.model("Users", userSchema);
