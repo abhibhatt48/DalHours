@@ -4,10 +4,13 @@ import {useDispatch} from 'react-redux';
 import {logoutAction} from '../store/user/actions';
 import Header from './Header';
 
-const AdminWrapper = ({children, title}) => {
+const AdminWrapper = ({navigation, children, title}) => {
   const dispatch = useDispatch();
 
-  const MenuItemsList = [{name: 'Logout', onPress: () => logout()}];
+  const MenuItemsList = [
+    {name: 'Add User', onPress: () => navigation.navigate('ADD_USER')},
+    {name: 'Logout', onPress: () => logout()},
+  ];
 
   const logout = () => {
     dispatch(logoutAction());
