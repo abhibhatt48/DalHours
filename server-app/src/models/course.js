@@ -1,27 +1,26 @@
 const mongoose = require("mongoose");
 
-const memberSchema = new mongoose.Schema({
-  memberId: {
-    type: String,
-    required: true,
+const memberSchema = new mongoose.Schema(
+  {
+    memberId: {
+      type: String,
+      required: true,
+    },
+    maxHours: {
+      type: Number,
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: ["TA", "MARKER"],
+      default: "TA",
+      required: true,
+    },
   },
-  maxHours: {
-    type: Number,
-    required: true,
-  },
-  role: {
-    type: String,
-    enum: ["TA", "MARKER"],
-    default: "TA",
-    required: true,
-  },
-});
+  { _id: false }
+);
 
 const courseSchema = new mongoose.Schema({
-  courseId: {
-    type: String,
-    require: true,
-  },
   name: {
     type: String,
     required: true,
@@ -37,11 +36,11 @@ const courseSchema = new mongoose.Schema({
   },
   startDate: {
     type: Number,
-    required: true,
+    required: false,
   },
   endDate: {
     type: Number,
-    required: true,
+    required: false,
   },
   instructorId: {
     type: String,

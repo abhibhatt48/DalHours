@@ -8,5 +8,7 @@ const {
 
 router.post("/add-user", authenticateAdmin, userController.addUser);
 router.get("/", authenticateUser, userController.getUser);
+router.get("/instructor-list", authenticateUser, userController.getInstructorList);
+router.get("/ta-marker-list", authenticateUser, userController.getTAMarkerList);
 
 module.exports = router;
