@@ -9,6 +9,7 @@ const AdminWrapper = ({navigation, children, title}) => {
 
   const MenuItemsList = [
     {name: 'Add User', onPress: () => navigation.navigate('ADD_USER')},
+    {name: 'Add Course', onPress: () => navigation.navigate('ADD_COURSE')},
     {name: 'Logout', onPress: () => logout()},
   ];
 

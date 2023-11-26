@@ -4,30 +4,24 @@ const response = require("../../../utils/response");
 const registerCourse = async (req, res) => {
   try {
     const {
-      courseId,
       name,
       CRN,
       term,
-      startDate,
-      endDate,
       instructorId,
       members,
     } = req.body;
 
     // Check if the course with the given courseId already exists
-    const existingCourse = await Course.findOne({ courseId });
+    const existingCourse = await Course.findOne({ name, CRN });
     if (existingCourse) {
       return response(res, 409, false, { message: "Course already exists" });
     }
 
     // Create a new course instance
     const newCourse = new Course({
-      courseId,
       name,
       CRN,
       term,
-      startDate,
-      endDate,
       instructorId,
       members,
     });
