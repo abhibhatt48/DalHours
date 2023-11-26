@@ -1,32 +1,49 @@
-const User = require("../../../models/user");
+const Course = require("../../../models/course");
 const response = require("../../../utils/response");
 
-const register = async (req, res) => {
+const registerCourse = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const {
+      courseId,
+      name,
+      CRN,
+      term,
+      startDate,
+      endDate,
+      instructorId,
+      members,
+    } = req.body;
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return response(res, 409, false, { message: "User already exists" });
+    // Check if the course with the given courseId already exists
+    const existingCourse = await Course.findOne({ courseId });
+    if (existingCourse) {
+      return response(res, 409, false, { message: "Course already exists" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = new User({
+    // Create a new course instance
+    const newCourse = new Course({
+      courseId,
       name,
-      email,
-      password: hashedPassword,
-      role,
+      CRN,
+      term,
+      startDate,
+      endDate,
+      instructorId,
+      members,
     });
-    await newUser.save();
+
+    // Save the course to the database
+    await newCourse.save();
+
+    // Respond with a success message
     return response(res, 201, true, {
-      message: "User created successfully",
-      userId: newUser._id,
+      message: "Course registered successfully",
+      courseId: newCourse._id,
     });
   } catch (error) {
-    console.error("Error during registration", error);
-    return response(res, 500, false, { message: "Registration failed" });
+    console.error("Error during course registration", error);
+    return response(res, 500, false, { message: "Course registration failed" });
   }
 };
 
-module.exports = register;
+module.exports = registerCourse;
