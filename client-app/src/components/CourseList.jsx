@@ -6,7 +6,7 @@ const CourseList = ({courses, searchQuery, onCoursePress}) => {
     course.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  return (
+  return filteredCourses.length > 0 ? (
     <FlatList
       data={filteredCourses}
       keyExtractor={item => item._id.toString()}
@@ -23,14 +23,18 @@ const CourseList = ({courses, searchQuery, onCoursePress}) => {
               </Text>
               <Text fontSize="sm" color="white">
                 {item.term.includes('_')
-                ? item.term.replace('_', ' ')
-                : item.term}
+                  ? item.term.replace('_', ' ')
+                  : item.term}
               </Text>
             </VStack>
           </Card>
         </Pressable>
       )}
     />
+  ) : (
+    <Text fontSize="md" bold color="white" ml={2}>
+      No Courses Found.
+    </Text>
   );
 };
 
