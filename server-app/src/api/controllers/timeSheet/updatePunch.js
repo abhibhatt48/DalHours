@@ -5,7 +5,16 @@ const mongoose = require("mongoose");
 async function patchTimesheet(req, res) {
   try {
     console.log(req.body);
-    const { _id, startTime } = req.body;
+    const {
+      _id,
+      approverId,
+      courseId,
+      startTime,
+      endTime,
+      totalHours,
+      isOverTime,
+      isApproved,
+    } = req.body;
 
     // const { data } = req.body;
     // const { timesheetId } = req.body.startTime;
@@ -13,7 +22,7 @@ async function patchTimesheet(req, res) {
     console.log(_id);
     console.log(startTime);
 
-    const timesheet = await Timesheet.findById(mongoose.Types.ObjectId(_id));
+    const timesheet = await Timesheet.findById((instanceId = _id));
     console.log(timesheet);
     console.log("I am here again");
     // Check if the timesheet exists
