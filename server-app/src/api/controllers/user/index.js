@@ -1,9 +1,10 @@
 const addUser = require("./addUser");
-const { getUser, getInstructorList, getTAMarkerList } = require("./getUser");
+const { getUser, getInstructorList, getTAMarkerList, getUserById } = require("./getUser");
 
 module.exports = {
   addUser,
   getUser,
   getInstructorList,
-  getTAMarkerList
+  getTAMarkerList,
+  getUserById
 };

@@ -22,7 +22,9 @@ const CourseList = ({courses, searchQuery, onCoursePress}) => {
                 {item.name}
               </Text>
               <Text fontSize="sm" color="white">
-                {item.term}
+                {item.term.includes('_')
+                ? item.term.replace('_', ' ')
+                : item.term}
               </Text>
             </VStack>
           </Card>

@@ -4,11 +4,13 @@ import TaDashboard from './screens/taMarker/Dashboard';
 import InstructorDashboard from './screens/instructor/Dashboard';
 import AddUser from './screens/admin/AddUser';
 import AddCourse from './screens/admin/AddCourse';
+import CourseDetails from './components/CourseDetails';
 
 const adminScreens = [
   {name: 'Dashboard', component: AdminDashboard},
   {name: 'ADD_USER', component: AddUser},
   {name: 'ADD_COURSE', component: AddCourse},
+  {name: 'COURSE_DETAILS', component: CourseDetails}
 ];
 const taScreens = [{name: 'Dashboard', component: TaDashboard}];
 const instructorScreens = [{name: 'Dashboard', component: InstructorDashboard}];

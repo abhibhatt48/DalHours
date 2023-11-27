@@ -20,7 +20,8 @@ const Dashboard = ({navigation}) => {
   }, []);
 
   const handleCardPress = courseId => {
-    navigation.navigate('CourseDetail', {courseId});
+    const course = courseList.filter(c => c._id == courseId);
+    navigation.navigate('COURSE_DETAILS', {course: course});
   };
 
   return (
