@@ -1,15 +1,19 @@
 const Timesheet = require("../../../models/timesheet");
 const response = require("../../../utils/response");
+const mongoose = require("mongoose");
 
 async function patchTimesheet(req, res) {
   try {
     console.log(req.body);
-    const { data } = req.body;
-    const { timesheetId } = req.body.startTime;
-    console.log("I am here ");
-    console.log(timesheetId);
+    const { _id, startTime } = req.body;
 
-    const timesheet = await Timesheet.findById(timesheetId);
+    // const { data } = req.body;
+    // const { timesheetId } = req.body.startTime;
+    console.log("I am here ");
+    console.log(_id);
+    console.log(startTime);
+
+    const timesheet = await Timesheet.findById(mongoose.Types.ObjectId(_id));
     console.log(timesheet);
     console.log("I am here again");
     // Check if the timesheet exists
