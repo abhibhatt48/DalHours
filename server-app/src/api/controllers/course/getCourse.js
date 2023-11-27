@@ -8,7 +8,7 @@ const getCourseList = async (req, res) => {
     if (user.role == "ADMIN") {
       courseList = await Course.find();
     } else if (user.role == "INSTRUCTOR") {
-      courseList = await Course.find({ instructorId: user.instructorId });
+      courseList = await Course.find({ instructorId: user._id });
     } else {
       courseList = await Course.find({
         "members.memberId": user._id,

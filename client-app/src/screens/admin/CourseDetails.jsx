@@ -8,8 +8,8 @@ import {
   Divider,
   Card,
 } from 'native-base';
-import AxiosInstance from '../config/Axios';
-import AdminWrapper from './AdminWrapper';
+import AxiosInstance from '../../config/Axios';
+import AdminWrapper from '../../components/AdminWrapper';
 
 const CourseDetails = ({route}) => {
   const course = route.params.course[0];
@@ -49,7 +49,6 @@ const CourseDetails = ({route}) => {
   const renderMember = ({item, index}) => {    
     const {memberId, maxHours, role} = item;
     const memberInfo = memberDetails.filter((member) => member._id == memberId)
-    console.log("INFO==>", memberInfo)
     return (
       <VStack space={2} mb={2}>
         <Card
