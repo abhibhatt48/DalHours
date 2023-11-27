@@ -23,6 +23,7 @@ const timesheetSchema = new mongoose.Schema({
   endTime: {
     type: Number,
     required: true,
+    default: "",
   },
   totalHours: {
     type: Number,
@@ -31,10 +32,12 @@ const timesheetSchema = new mongoose.Schema({
   isOverTime: {
     type: Boolean,
     required: true,
+    default: false,
   },
   isApproved: {
     type: Boolean,
     required: true,
+    default:true,
   },
 });
 
