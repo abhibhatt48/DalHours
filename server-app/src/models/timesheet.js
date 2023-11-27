@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const timesheetSchema = new mongoose.Schema({
   instanceId: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
   },
   userId: {
     type: String,
