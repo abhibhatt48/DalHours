@@ -16,15 +16,10 @@ async function patchTimesheet(req, res) {
       isApproved,
     } = req.body;
 
-    // const { data } = req.body;
-    // const { timesheetId } = req.body.startTime;
-    console.log("I am here ");
     console.log(_id);
-    console.log(startTime);
 
     const timesheet = await Timesheet.findById((instanceId = _id));
-    console.log(timesheet);
-    console.log("I am here again");
+
     // Check if the timesheet exists
     if (!timesheet) {
       return response(res, 404, false, { message: "Timesheet not found" });
