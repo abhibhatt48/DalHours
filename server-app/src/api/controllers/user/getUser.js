@@ -7,6 +7,25 @@ const getUser = (req, res) => {
   return response(res, 200, true, user);
 };
 
+const getUserById = (req, res) => {
+  const { userId } = req.query;
+
+  if (!userId) {
+    return res.status(400).send("User ID is required");
+  }
+
+  User.find({ _id: userId })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+      return response(res, 200, true, user);
+    })
+    .catch((err) => {
+      return response(res, 500, false, { message: "No data found" });
+    });
+};
+
 const getInstructorList = (req, res) => {
   User.find({ role: "INSTRUCTOR" })
     .then((users) => {
@@ -27,4 +46,4 @@ const getTAMarkerList = (req, res) => {
     });
 };
 
-module.exports = { getUser, getInstructorList, getTAMarkerList };
+module.exports = { getUser, getInstructorList, getTAMarkerList, getUserById };
