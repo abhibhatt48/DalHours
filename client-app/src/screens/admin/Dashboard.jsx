@@ -1,14 +1,44 @@
-import React from 'react';
-import {Text} from 'native-base';
-import {useSelector} from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {Box} from 'native-base';
+import AxiosInstance from '../../config/Axios';
 import AdminWrapper from '../../components/AdminWrapper';
+import InputType from '../../components/common/Input';
+import CourseList from '../../components/CourseList';
 
 const Dashboard = ({navigation}) => {
-  const {user} = useSelector(state => state.user);
+  const [courseList, setCourseList] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    AxiosInstance.get('/course/course-list')
+      .then(({data}) => {
+        setCourseList(data);
+      })
+      .catch(error => {
+        setCourseList([]);
+      });
+  }, []);
+
+  const handleCardPress = courseId => {
+    navigation.navigate('CourseDetail', {courseId});
+  };
 
   return (
     <AdminWrapper title="Dashboard" navigation={navigation}>
-      <Text color="secondary.100">Hello {user.name}</Text>
+      <Box>
+        <InputType
+          placeholder="Search Courses"
+          value={searchQuery}
+          onChangeText={text => setSearchQuery(text)}
+          mt={4}
+          mb={2}
+        />
+        <CourseList
+          courses={courseList}
+          searchQuery={searchQuery}
+          onCoursePress={handleCardPress}
+        />
+      </Box>
     </AdminWrapper>
   );
 };
