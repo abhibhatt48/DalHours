@@ -4,5 +4,6 @@ const router = express.Router();
 
 router.post("/add-punch", punchController.addPunch);
 router.patch("/update-punch", punchController.updatePunch);
+router.get("/details", punchController.details);
 
 module.exports = router;
