@@ -8,7 +8,7 @@ async function patchTimesheet(req, res) {
     const { timesheetId } = req.body.startTime;
     console.log("I am here ");
     console.log(timesheetId);
-    // Find the timesheet document by its ID
+
     const timesheet = await Timesheet.findById(timesheetId);
     console.log(timesheet);
     console.log("I am here again");
