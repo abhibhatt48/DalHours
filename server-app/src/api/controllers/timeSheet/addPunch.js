@@ -7,14 +7,14 @@ async function addPunchTime(req, res) {
       userId,
       approverId,
       courseId,
-      startTime,
-      endTime,
-      totalHours,
-      isOverTime,
-      isApproved,
     } = req.body;
 
-    // Create a new timesheet entry
+    const startTime = Math.floor(new Date().getTime() / 1000);
+    const endTime = 0;
+    const totalHours = 0;
+    const isOverTime = false;
+    const isApproved = true;
+
     const newTimesheet = new Timesheet({
       userId,
       approverId,
@@ -35,7 +35,7 @@ async function addPunchTime(req, res) {
     // Respond with a success message
     return response(res, 201, true, {
       message: "Punch time added successfully",
-      timesheetId: newTimesheet._id,
+      instanceId: newTimesheet._id,
     });
   } catch (error) {
     console.error("Error adding punch time", error);

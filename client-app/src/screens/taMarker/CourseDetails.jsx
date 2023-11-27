@@ -13,6 +13,7 @@ import {
 } from 'native-base';
 import AxiosInstance from '../../config/Axios';
 import TaWrapper from '../../components/TaWrapper';
+import {CustomAlert} from '../../components/common/Alert';
 
 const CourseDetails = ({route}) => {
   const course = route.params.course[0];
@@ -22,14 +23,9 @@ const CourseDetails = ({route}) => {
   const {user} = useSelector(state => state.user);
   const [isPunchedIn, setIsPunchedIn] = useState(false);
   const [shiftTime, setShiftTime] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShiftTime(prevTime => prevTime + 1);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
+  const [message, setMessage] = useState('');
+  const [instanceData, setInstanceData] = useState({});
+  const [timeSheetData, setTimeSheetData] = useState({});
 
   useEffect(() => {
     AxiosInstance.get('/user/user?userId=' + course.instructorId)
@@ -39,11 +35,74 @@ const CourseDetails = ({route}) => {
       .catch(error => {
         setInstructorDetails({});
       });
+
+    AxiosInstance.get(
+      '/timeSheet/details?userId=' + user._id + '&courseId=' + course._id,
+    )
+      .then(({data}) => {
+        if (data.success) {
+          processTimeSheetData(data.data);
+          setTimeSheetData(data.data);
+        } else {
+          setTimeSheetData({});
+        }
+      })
+      .catch(error => {
+        setInstructorDetails({});
+      });
+    const interval = setInterval(() => {
+      setShiftTime(prevTime => prevTime + 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
   }, [course]);
 
+  const processTimeSheetData = timeSheetData => {
+    timeSheetData.timeSheets.map(instance => {
+      if (instance.endTime == 0) {
+        let currentTime = Math.floor(new Date().getTime() / 1000);
+        setShiftTime(currentTime - instance.startTime);
+        setIsPunchedIn(true);
+        setInstanceData(instance);
+      } else {
+        setIsPunchedIn(false);
+        setShiftTime(0);
+        setInstanceData({});
+      }
+    });
+  };
+
   const punchHandler = () => {
-    setIsPunchedIn(!isPunchedIn);
-    setShiftTime(0)
+    if (!isPunchedIn) {
+      let payload = {
+        userId: user._id,
+        courseId: course._id,
+        approverId: course.instructorId,
+      };
+
+      AxiosInstance.post('timeSheet/add-punch', payload)
+        .then(response => {
+          setInstanceData({instanceId: response.data.data.instanceId});
+          setIsPunchedIn(true);
+        })
+        .catch(error => {
+          setMessage('Punch in failed. Please try again.');
+          console.error('Punch in error:', error);
+        });
+    } else {
+      let payload = {
+        instanceId: instanceData.id,
+      };
+      AxiosInstance.post('timeSheet/punchout', payload)
+        .then(response => {
+          setIsPunchedIn(false);
+          setShiftTime(0);
+          setInstanceData({});
+        })
+        .catch(error => {
+          console.error('Punch out error:', error);
+        });
+    }
   };
 
   const formatTime = totalSeconds => {
@@ -67,9 +126,9 @@ const CourseDetails = ({route}) => {
               ? course.term.replace('_', ' ')
               : course.term}
           </Text>
-          <Text color={'white'}>Instructor: {instructorDetails.name}</Text>
+          <Text color={'white'}>Instructor: {instructorDetails?.name}</Text>
           <Text color={'white'}>
-            Instructor Email: {instructorDetails.email}
+            Instructor Email: {instructorDetails?.email}
           </Text>
         </Card>
 
@@ -86,7 +145,7 @@ const CourseDetails = ({route}) => {
               Total Hours
             </Text>
             <Text fontSize="2xl" color="white">
-              {80}
+              {timeSheetData?.totalHours ? timeSheetData?.totalHours.toFixed(2) : 0}
             </Text>
           </Card>
           <Card
@@ -99,7 +158,7 @@ const CourseDetails = ({route}) => {
               Hours Limits
             </Text>
             <Text fontSize="2xl" color="white">
-              {100}
+              {timeSheetData?.maxHours ? timeSheetData?.maxHours.toFixed(2) : 0}
             </Text>
           </Card>
         </Flex>
@@ -126,6 +185,13 @@ const CourseDetails = ({route}) => {
             {formatTime(isPunchedIn ? shiftTime : 0)}
           </Text>
         </Center>
+
+        <CustomAlert
+          message={message}
+          open={Boolean(message)}
+          status="success"
+          noClose={true}
+        />
       </VStack>
     </TaWrapper>
   );

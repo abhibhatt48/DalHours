@@ -3,30 +3,32 @@ const response = require("../../../utils/response");
 
 async function punchOut(req, res) {
   try {
-    const { _id, startTime, endTime } = req.body;
-    const existingTimesheet = await Timesheet.findById(_id);
+    const { instanceId } = req.body;
+    const existingTimesheet = await Timesheet.findById(instanceId);
 
     if (!existingTimesheet) {
       return response(res, 404, false, { message: "Timesheet not found" });
     }
 
-    existingTimesheet.startTime = startTime;
-    existingTimesheet.endTime = endTime;
+    existingTimesheet.endTime = Math.floor(new Date().getTime() / 1000);
     existingTimesheet.totalHours = calculateTotalHours(
       existingTimesheet.startTime,
       existingTimesheet.endTime
     );
 
-    const approvalNeeded = isApprovalNeeded(existingTimesheet.startTime, existingTimesheet.endTime);
+    const approvalNeeded = isApprovalNeeded(
+      existingTimesheet.startTime,
+      existingTimesheet.endTime
+    );
     existingTimesheet.approvalNeeded = approvalNeeded;
 
     if (existingTimesheet.totalHours > 50) {
-        existingTimesheet.isOverTime = true;
-        existingTimesheet.isApproved = false;
-      } else {
-        existingTimesheet.isOverTime = false;
-        existingTimesheet.isApproved = true;
-      }
+      existingTimesheet.isOverTime = true;
+      existingTimesheet.isApproved = false;
+    } else {
+      existingTimesheet.isOverTime = false;
+      existingTimesheet.isApproved = true;
+    }
 
     await existingTimesheet.save();
 
@@ -36,7 +38,7 @@ async function punchOut(req, res) {
 
     return response(res, 200, true, {
       message: responseMessage,
-      timesheetId: existingTimesheet._id,
+      timesheetId: existingTimesheet.instanceId,
       approvalNeeded: approvalNeeded,
     });
   } catch (error) {
