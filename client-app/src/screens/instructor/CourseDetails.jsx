@@ -19,6 +19,22 @@ const CourseDetails = ({route}) => {
   const [membersLoader, setLoader] = useState(false);
   const {loading, user} = useSelector(state => state.user);
 
+  const approveTime = userId => {
+    setLoader(true);
+    AxiosInstance.post('/timeSheet/approve', {
+      userId,
+      courseId: course._id,
+      approverId: user._id,
+    })
+      .then(({data}) => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    getCourseDetails();
+  };
+
   const getCourseDetails = () => {
     setLoader(true);
     AxiosInstance.get('/course/details/' + course._id)
@@ -72,7 +88,9 @@ const CourseDetails = ({route}) => {
               <Button
                 size="sm"
                 background="secondary.400"
-                onPress={() => {}}
+                onPress={() => {
+                  approveTime(item.memberId);
+                }}
                 _pressed={{backgroundColor: 'secondary.500'}}
                 style={{marginTop: 10}}>
                 Approve
