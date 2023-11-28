@@ -28,10 +28,9 @@ async function getCoursesAndTimesheets(courseIds, userId) {
       courseName: course.name,
       courseId: course._id,
       totalHours: timesheets.reduce((acc, ts) => acc + ts.totalHours, 0),
-      maxHours: course.members.reduce(
-        (acc, member) => acc + member.maxHours,
-        0
-      ),
+      maxHours: course.members.filter(
+        (acc, member) => acc.memberId == userId
+      )[0].maxHours,
       timeSheets: timesheets.map((ts) => ({
         id: ts._id,
         startTime: ts.startTime,

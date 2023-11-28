@@ -1,9 +1,11 @@
+const Course = require("../../../models/course");
 const Timesheet = require("../../../models/timesheet");
 const response = require("../../../utils/response");
 
 async function punchOut(req, res) {
   try {
     const { instanceId } = req.body;
+
     const existingTimesheet = await Timesheet.findById(instanceId);
 
     if (!existingTimesheet) {
@@ -15,14 +17,19 @@ async function punchOut(req, res) {
       existingTimesheet.startTime,
       existingTimesheet.endTime
     );
+    const course = await Course.findById(existingTimesheet.courseId);
+    const maxHours = course.members.filter(
+      (member) => member.memberId === existingTimesheet.userId
+    )[0]?.maxHours;
 
     const approvalNeeded = isApprovalNeeded(
       existingTimesheet.startTime,
-      existingTimesheet.endTime
+      existingTimesheet.endTime,
+      maxHours
     );
     existingTimesheet.approvalNeeded = approvalNeeded;
 
-    if (existingTimesheet.totalHours > 50) {
+    if (existingTimesheet.totalHours > maxHours) {
       existingTimesheet.isOverTime = true;
       existingTimesheet.isApproved = false;
     } else {
@@ -62,11 +69,10 @@ function calculateTotalHours(startTime, endTime) {
   return totalMilliseconds / millisecondsInHour;
 }
 
-function isApprovalNeeded(startTime, endTime) {
-  const maxHoursWithoutApproval = 50;
+function isApprovalNeeded(startTime, endTime, maxHours) {
   const totalHours = calculateTotalHours(startTime, endTime);
   console.log("TOTAL HRS======>", totalHours);
-  return totalHours > maxHoursWithoutApproval;
+  return totalHours > maxHours;
 }
 
 module.exports = punchOut;
