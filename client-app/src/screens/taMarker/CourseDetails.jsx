@@ -14,6 +14,7 @@ import {
 import AxiosInstance from '../../config/Axios';
 import TaWrapper from '../../components/TaWrapper';
 import {CustomAlert} from '../../components/common/Alert';
+import CenterSpinner from '../../components/common/CenterSpinner';
 
 const CourseDetails = ({route, navigation}) => {
   const course = route.params.course[0];
@@ -142,11 +143,7 @@ const CourseDetails = ({route, navigation}) => {
   return (
     <TaWrapper title="Course Details">
       {loading ? (
-        <Center style={{height: '100%'}}>
-          <Stack space={2}>
-            <Spinner color="secondary.500" size="lg" />
-          </Stack>
-        </Center>
+        <CenterSpinner />
       ) : (
         <VStack space={4} p={4}>
           <Card>
