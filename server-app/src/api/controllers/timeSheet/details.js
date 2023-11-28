@@ -1,6 +1,7 @@
 const Timesheet = require("../../../models/timesheet");
 const Course = require("../../../models/course");
 const response = require("../../../utils/response");
+const getTimesheetsByCourseAndUser = require("../../../utils/timesheet");
 
 async function getCoursesByCourseId(courseId) {
   try {
@@ -8,19 +9,6 @@ async function getCoursesByCourseId(courseId) {
     return course[0];
   } catch (error) {
     console.error("Error fetching courses:", error);
-    throw error;
-  }
-}
-
-async function getTimesheetsByCourseAndUser(courseId, userId) {
-  try {
-    const timesheets = await Timesheet.find({
-      courseId: courseId,
-      userId: userId,
-    });
-    return timesheets;
-  } catch (error) {
-    console.error("Error fetching timesheets:", error);
     throw error;
   }
 }

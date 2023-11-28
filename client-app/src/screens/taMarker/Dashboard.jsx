@@ -25,7 +25,7 @@ const Dashboard = ({navigation}) => {
   };
 
   return (
-      <TaWrapper title="Dashboard" navigation={navigation}>
+    <TaWrapper title="Dashboard" navigation={navigation}>
       <Box>
         <InputType
           placeholder="Search Courses"
@@ -40,7 +40,7 @@ const Dashboard = ({navigation}) => {
           onCoursePress={handleCardPress}
         />
       </Box>
-      </TaWrapper>
+    </TaWrapper>
   );
 };
 

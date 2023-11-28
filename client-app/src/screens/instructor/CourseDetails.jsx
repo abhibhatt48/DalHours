@@ -1,45 +1,45 @@
 import React, {useEffect, useState} from 'react';
 import {
-  FlatList,
-  ScrollView,
   Box,
   Text,
   VStack,
   Divider,
   Card,
+  Button,
+  ScrollView,
 } from 'native-base';
 import AxiosInstance from '../../config/Axios';
 import InstructorWrapper from '../../components/InstructorWrapper';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
+import CenterSpinner from '../../components/common/CenterSpinner';
 
 const CourseDetails = ({route}) => {
   const course = route.params.course[0];
-  const [memberDetails, setMemberDetails] = useState([]);
-  const {loading, user, role} = useSelector(state => state.user);
+  const [data, setData] = useState({});
+  const [membersLoader, setLoader] = useState(false);
+  const {loading, user} = useSelector(state => state.user);
+
+  const getCourseDetails = () => {
+    setLoader(true);
+    AxiosInstance.get('/course/details/' + course._id)
+      .then(({data}) => {
+        setData(data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
+  };
 
   useEffect(() => {
-    const fetchMemberDetails = async () => {
-      const memberInfoPromises = course.members.map(member =>
-        AxiosInstance.get('/user/user?userId=' + member.memberId).then(
-          ({data}) => data.data[0],
-        ),
-      );
+    getCourseDetails();
+  }, []);
 
-      Promise.all(memberInfoPromises)
-        .then(memberInfos => {
-          setMemberDetails(memberInfos);
-        })
-        .catch(error => {
-          console.error('Error fetching member details', error);
-        });
-    };
-
-    fetchMemberDetails();
-  }, [course.members]);
-
-  const renderMember = ({item, index}) => {
-    const {memberId, maxHours, role} = item;
-    const memberInfo = memberDetails.filter(member => member._id == memberId);
+  const RenderMembers = ({item, index}) => {
+    const isOverTime =
+      parseInt(item.maxHours) < parseFloat(item.completedHours).toFixed(2);
     return (
       <VStack space={2} mb={2}>
         <Card
@@ -48,17 +48,37 @@ const CourseDetails = ({route}) => {
           borderColor="coolGray.200"
           borderWidth="1">
           <Text fontSize="md" bold color="white">
-            Name: {memberInfo[0]?.name || ''}
+            Name: {item.name}
           </Text>
           <Text fontSize="sm" color="white">
-            Role: {role}
+            Role: {item.role}
           </Text>
           <Text fontSize="sm" color="white">
-            Completed Hours: {'completedHours'}
+            Completed Hours: {parseFloat(item.completedHours).toFixed(2)} hrs
           </Text>
           <Text fontSize="sm" color="white">
-            Maximum Hours: {maxHours}
+            Maximum Hours: {item.maxHours} hrs
           </Text>
+          {isOverTime && (
+            <Text fontSize="sm" color="white">
+              Overtime:
+              {parseFloat(item.completedHours).toFixed(2) -
+                parseInt(item.maxHours)}
+              hrs
+            </Text>
+          )}
+          {item.isApproved == false && (
+            <>
+              <Button
+                size="sm"
+                background="secondary.400"
+                onPress={() => {}}
+                _pressed={{backgroundColor: 'secondary.500'}}
+                style={{marginTop: 10}}>
+                Approve
+              </Button>
+            </>
+          )}
         </Card>
       </VStack>
     );
@@ -66,56 +86,59 @@ const CourseDetails = ({route}) => {
 
   return (
     <InstructorWrapper title="Dashboard">
-      <Box p={4}>
-        <VStack space={4}>
-          <Text fontSize="2xl" bold color="white">
-            {course.name}
-          </Text>
+      {loading || membersLoader ? (
+        <CenterSpinner />
+      ) : (
+        <ScrollView>
+          <Box p={4}>
+            <VStack space={4}>
+              <Text fontSize="2xl" bold color="white">
+                {course.name}
+              </Text>
 
-          <Divider my={2} />
+              <Divider my={2} />
 
-          <Box>
-            <Text fontSize="md" bold color="white">
-              {'Term:  '}
-              {course.term.includes('_')
-                ? course.term.replace('_', ' ')
-                : course.term}
-            </Text>
+              <Box>
+                <Text fontSize="md" bold color="white">
+                  {'Term:  '}
+                  {course.term.includes('_')
+                    ? course.term.replace('_', ' ')
+                    : course.term}
+                </Text>
+              </Box>
+
+              <Divider my={2} />
+
+              <Box>
+                <Text fontSize="md" bold color="white">
+                  Instructor:
+                </Text>
+                <Text fontSize="md" color="white">
+                  {user?.name || ''}
+                </Text>
+              </Box>
+
+              <Box>
+                <Text fontSize="md" bold color="white">
+                  Email:
+                </Text>
+                <Text fontSize="md" color="white">
+                  {user?.email || ''}
+                </Text>
+              </Box>
+
+              <Box>
+                <Text fontSize="xl" bold color="white">
+                  Members
+                </Text>
+                {data?.members?.map((member, index) => (
+                  <RenderMembers item={member} key={index} />
+                ))}
+              </Box>
+            </VStack>
           </Box>
-
-          <Divider my={2} />
-
-          <Box>
-            <Text fontSize="md" bold color="white">
-              Instructor:
-            </Text>
-            <Text fontSize="md" color="white">
-              {user?.name || ''}
-            </Text>
-          </Box>
-
-          <Box>
-            <Text fontSize="md" bold color="white">
-              Email:
-            </Text>
-            <Text fontSize="md" color="white">
-              {user?.email || ''}
-            </Text>
-          </Box>
-
-          <Box>
-            <Text fontSize="xl" bold color="white">
-              Members
-            </Text>
-            <FlatList
-              data={course.members}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderMember}
-              nestedScrollEnabled={true}
-            />
-          </Box>
-        </VStack>
-      </Box>
+        </ScrollView>
+      )}
     </InstructorWrapper>
   );
 };
