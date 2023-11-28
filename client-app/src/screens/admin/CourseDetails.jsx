@@ -46,9 +46,9 @@ const CourseDetails = ({route}) => {
     fetchMemberDetails();
   }, [course.members]);
 
-  const renderMember = ({item, index}) => {    
+  const renderMember = ({item, index}) => {
     const {memberId, maxHours, role} = item;
-    const memberInfo = memberDetails.filter((member) => member._id == memberId)
+    const memberInfo = memberDetails.filter(member => member._id == memberId);
     return (
       <VStack space={2} mb={2}>
         <Card
