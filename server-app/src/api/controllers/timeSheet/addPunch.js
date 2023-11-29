@@ -3,11 +3,7 @@ const response = require("../../../utils/response");
 
 async function addPunchTime(req, res) {
   try {
-    const {
-      userId,
-      approverId,
-      courseId,
-    } = req.body;
+    const { userId, approverId, courseId } = req.body;
 
     const startTime = Math.floor(new Date().getTime() / 1000);
     const endTime = 0;

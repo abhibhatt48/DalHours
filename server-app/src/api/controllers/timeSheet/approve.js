@@ -1,8 +1,9 @@
 const Timesheet = require("../../../models/timesheet");
 const response = require("../../../utils/response");
 
-async function approve(req,res) {
-    const {userId, courseId, approverId   } = req.body;
+async function approve(req, res) {
+  const { userId, courseId, approverId } = req.body;
+  console.log({ userId, courseId, approverId });
   try {
     if (!userId || !courseId || !approverId) {
       throw new Error("Missing required parameters");
@@ -24,10 +25,17 @@ async function approve(req,res) {
       await timesheet.save();
     }
 
-    return response(res,200,true,{ success: true, message: "Timesheets approved successfully" });
+    return response(res, 200, true, {
+      success: true,
+      message: "Timesheets approved successfully",
+    });
   } catch (error) {
     console.error("Error approving timesheets", error);
-    return response(res,500,false,{ success: false, message: "Failed to approve timesheets", error: error.message });
+    return response(res, 500, false, {
+      success: false,
+      message: "Failed to approve timesheets",
+      error: error.message,
+    });
   }
 }
 
