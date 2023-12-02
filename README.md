@@ -1,92 +1,55 @@
-# CSCI5193-Fall-23-Skywalkers
+# Dal-Hours | CSCI5193 - Skywalkers
 
+## Introduction
 
+Dal-Hours is a collaborative mobile app designed to streamline the workflow for Teaching Assistants (TAs), Markers, and Professors by providing a convenient platform for punch in and punch out, as well as the approval process from instructors. The application addresses challenges faced by academic staff through key functionalities:
 
-## Getting started
+- **Course Management:** Simplifies course setup by allowing registration, assigning maximum hours for TAs and Markers, and linking courses with respective professors.
+- **Time Sheet and Contract Management:** Facilitates the submission, tracking, and approval of time sheets, reducing administrative workload and improving accuracy.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- **User Profile Management:** Offers comprehensive user profile management for academic staff to update personal information, manage teaching or marking assignments, and schedule availability.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Features
 
-## Add your files
+### Core Functionalities
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+- **Course Management System:** Facilitates course registration, allocation of maximum hours, and assignment of professors to courses, ensuring streamlined and efficient course setup.
 
-```
-cd existing_repo
-git remote add origin https://git.cs.dal.ca/kpkhant/csci5193-fall-23-skywalkers.git
-git branch -M main
-git push -uf origin main
-```
+- **Time Sheet Management:** Allows easy submission, tracking, and approval of timesheets, addressing convenience issues with a user-friendly interface for on-campus and off-campus hours logging.
 
-## Integrate with your tools
+- **Contract Management:** Includes a module for efficient handling of TA and Marker contracts, from creation to approval and archiving.
 
-- [ ] [Set up project integrations](https://git.cs.dal.ca/kpkhant/csci5193-fall-23-skywalkers/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+- **User Profile Management:** Enables users to manage their profiles, update personal and professional information, manage teaching or marking assignments, and set availability schedules.
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+### Server Application
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+1. Clone the server repository:
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+   ```bash
+   git clone https://git.cs.dal.ca/kpkhant/csci5193-fall-23-skywalkers
+   ```
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+   cd server-m
+   npm install
+   npm start
+   npm run test
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+   Frontend Application
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+   cd client-m
+   npm run start
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+### Initial Admin User Credentials
 
-## License
-For open source projects, say how it is licensed.
+Username: admin@gmail.com
+Password: 123456789
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Adding New Users and Assigning Courses
+
+After logging in as an admin, navigate to the user management section to add new users.
+
+Assign roles (TA/MARKER/INSTRUCTOR) to the newly added users.
+
+Assign courses to users based on their roles.
